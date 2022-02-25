@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React基础知识4条件处理</title>
+    <!--下面用cdn方式引入库-->
+    <script src="https://unpkg.com/react@16.14.0/umd/react.development.js"></script>
+    <!--react底层核心库-->
+    <script src="https://unpkg.com/react-dom@16.14.0/umd/react-dom.development.js"></script>
+    <!--react操作dom的库-->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <!--解析本地es6语法，用babel解析extends等关键字-->
+
+    <style>
+        .gold {
+            color: gold;
+        }
+    </style>
+</head>
+
+<body>
+    <!--三个组件 app 登录 登出-->
+    <div id="app1"></div>
+    <script type="text/babel">
+
+        function Login(){
+            return <button>Login</button>
+        }
+
+        function Logout(){
+            return <button>Logout</button>
+        }
+
+        //使用class继承的方式定义组件
+        class App extends React.Component {
+            
+            state = {
+                isLogin: false
+            }
+
+            updateUser = () => {
+                console.log(this);
+                this.setState({
+                    isLogin: true
+                })
+            }
+
+
+            render() {
+                let isLogin = this.state.isLogin;
+                let button001;
+                if(isLogin){
+                    //登入组件
+                    button001 = <Login/>;
+                }else{
+                    //登出组件
+                    button001 = <Logout/>;
+                }
+                return <div>
+                    <h3 className = "gold">Hello!!</h3>
+                    {button001}
+                    <button onClick = {this.updateUser}>点击更新数据</button>
+                </div>
+            }
+        }
+        ReactDOM.render(
+            <App/>,
+            document.getElementById('app1')
+        );
+
+        //本例子只有一个页面，不涉及页面切换，暂不演示销毁
+    </script>
+
+</body>
+
+</html>

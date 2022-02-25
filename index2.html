@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React基础知识2生命周期</title>
+    <!--
+        react生命周期：
+
+        1.组件初始化阶段Initializtion:组件初始化、状态初始化
+        在构造函数constructor中setup props and state
+        
+        2.组件加载阶段Mounting:
+        componentWillMount在这里面调用接口拉取请求把数据提前存储下来 
+        -> 调用render渲染dom -> componentDidMount加载完成
+        
+        3.数据更新阶段Updation:
+        分为props和states
+          props: componentWillReceiveProps（不常用，这个构造函数只发生在父子组件之间，当父组件发生变化时，子组件才会接收到这个构造函数） 
+                 -> shouldComponentUpdate -> 若true则继续执行 若false则停 
+                 -> componentWillUpdate -> render -> componentDidUpdate
+          states: shouldComponentUpdate -> true(/false停) -> c....同上
+
+        4.组建销毁阶段Unmounting: componentWillUnmount
+
+    -->
+
+    <!--下面用cdn方式引入库-->
+    <script src="https://unpkg.com/react@16.14.0/umd/react.development.js"></script>
+    <!--react底层核心库-->
+    <script src="https://unpkg.com/react-dom@16.14.0/umd/react-dom.development.js"></script>
+    <!--react操作dom的库-->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <!--解析本地es6语法，用babel解析extends等关键字-->
+
+</head>
+
+<body>
+    <div id="app1"></div>
+    <script type="text/babel">
+        //使用class继承的方式定义组件
+        class Hello002 extends React.Component {
+            
+            //构造函数
+            constructor(props) {
+                console.log("初始化阶段");
+                //初始化属性props
+                super(props);
+                //初始化状态state（组件内部用到的东西）
+                this.state = {
+                    name: 'React的生命周期',
+                    age: 35
+                }
+            }
+            
+            //组件加载阶段
+            componentWillMount(){
+                //通常会在这里发起一些ajax请求来拉取数据
+                console.log("组件加载前");
+            }
+
+            componentDidMount(){
+                console.log("组件加载后");
+            }
+
+            updateUser = () => {
+                //以下这种写法是错误的：
+                //this.state.name = 'Tim'
+                //因为不会触发render
+                this.setState({
+                    name: 'Tim',
+                    age: 32
+                })
+            }
+
+            shouldComponentUpdate(){
+                console.log("数据是否需要更新");
+                return true;//根据业务场景加判断，例如登陆成功就更新......
+            }
+
+            componentWillUpdate(){
+                console.log("数据将要更新");
+            }
+
+            componentDidUpdate(){
+                console.log("数据已经更新");
+            }
+
+            render() {
+                console.log("组件加载、数据更新");
+                return <div>
+                    <h3>Hello {this.state.name}</h3>
+                    <p>年龄： {this.state.age}</p>
+                    <p>擅长： 组件加载</p>
+                    <button onClick = {this.updateUser}>点击更新数据</button>
+                </div>
+            }
+        }
+        ReactDOM.render(
+            <Hello002/>,
+            document.getElementById('app1')
+        );
+
+        //本例子只有一个页面，不涉及页面切换，暂不演示销毁
+    </script>
+
+</body>
+
+</html>

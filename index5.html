@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React基础知识5循环</title>
+    <!--下面用cdn方式引入库-->
+    <script src="https://unpkg.com/react@16.14.0/umd/react.development.js"></script>
+    <!--react底层核心库-->
+    <script src="https://unpkg.com/react-dom@16.14.0/umd/react-dom.development.js"></script>
+    <!--react操作dom的库-->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <!--解析本地es6语法，用babel解析extends等关键字-->
+
+    <style>
+        .gold {
+            color: gold;
+        }
+    </style>
+</head>
+
+<body>
+    <!--三个组件 app 登录 登出-->
+    <div id="app1"></div>
+    <script type="text/babel">
+
+        //使用class继承的方式定义组件
+        class List001 extends React.Component {
+
+            state = {
+                list: [1, 2, 3, 4, 5],
+                languageList: [
+                    {id: 1, text: 'a. Java'},
+                    {id: 2, text: 'b. JS'},
+                    {id: 3, text: 'c. Python'},
+                    {id: 4, text: 'd. C++'}
+                ]
+            }
+
+
+            render() {
+                const arr = this.state.list;
+                const listItem = [];
+                //接下来遍历arr
+                arr.map((item) => {
+                    //item就是每一项
+                    let li001 = <li>{item}</li>;
+                    listItem.push(li001);
+                });
+
+                //或者用for循环
+                const arrL = this.state.languageList;
+                for(var i = 0; i<arrL.length; i++){
+                    let li002 = <li key={arrL[i].id}>{arrL[i].text}</li>;
+                    listItem.push(li002);
+                }
+                return <div>
+                    <ul>
+                        {listItem}
+                    </ul>
+                </div>
+            }
+        }
+        ReactDOM.render(
+            <List001 />,
+            document.getElementById('app1')
+        );
+
+        //本例子只有一个页面，不涉及页面切换，暂不演示销毁
+    </script>
+
+</body>
+
+</html>

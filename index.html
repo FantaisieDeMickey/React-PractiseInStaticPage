@@ -1,0 +1,163 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React基础知识1</title>
+    <!--下面用cdn方式引入库-->
+    <script src="https://unpkg.com/react@16.14.0/umd/react.development.js"></script>
+    <!--react底层核心库-->
+    <script src="https://unpkg.com/react-dom@16.14.0/umd/react-dom.development.js"></script>
+    <!--react操作dom的库-->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <!--解析本地es6语法，用babel解析extends等关键字-->
+
+    <!--
+        ReactDOM.render()最基本的语法，渲染div或h等标签
+        React.createElement()创建元素同时添加属性等
+        React.Component是es6的语法，通过extends继承他来。。。
+    -->
+    <style>
+        .red {
+            color: red;
+        }
+
+        .blue {
+            color: blue;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .grey {
+            color: grey;
+        }
+
+        .gold {
+            color: gold;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app1"></div>
+    <script>
+        //下面是es5的语法
+        var hello = React.createElement('h4', {}, "Hello World");
+        //第一个参数是标签，第二个属性
+        ReactDOM.render(hello, document.getElementById('app1'));
+    </script>
+
+    <div id="app2"></div>
+    <script type="text/babel">
+        //下面是es6的语法糖，需要引入babel标签
+        ReactDOM.render(
+            <h4>Hello World with ES6 and babel111</h4>,
+            document.getElementById('app2')
+        );
+    </script>
+
+    <div id="app3"></div>
+    <script>
+        //下面是es5语法
+        var helloJSX = React.createElement(
+            'h2',
+            {
+                className: 'red',//className而不是class，编译后开console会发现是class
+                name: 'Jack'
+            },
+            "Hello JSX11"
+        );
+        ReactDOM.render(helloJSX, document.getElementById('app3'));
+    </script>
+
+    <div id="app4"></div>
+    <script type="text/babel">
+        //下面是es6语法糖
+        ReactDOM.render(
+            <h2 className="blue" name="jack2">Hello JSX in es6</h2>,
+            document.getElementById('app4')
+        );
+    </script>
+
+    <div id="app5"></div>
+    <script type="text/babel">
+        //使用{}将var引入标签
+        var myname = "Rickey";
+        var a1 = <h1 className="green" name="jack333">Hello,{myname}</h1>
+        ReactDOM.render(
+            a1, document.getElementById('app5')
+        );
+    </script>
+
+
+    <!--元素渲染练习-->
+    <!--此框架效率高的原因在于 当元素发生变化时只渲染变化的部分而不会整体改变-->
+    <div id="app6"></div>
+    <script type="text/babel">
+        //用定时器循环渲染下面的函数
+        function tick() {
+            var time6 = new Date().toLocaleTimeString();
+            var a6 = <div>
+                <h4 className="gold" name="jack6">Hello,Jack</h4>
+                <h4 className="gold" name="jack6">现在的时间是{time6}</h4>
+            </div>
+            //打开console会发现只是{time6}在不断变化而其他部分不会重新渲染
+            ReactDOM.render(
+                a6, document.getElementById('app6')
+            );
+        }
+        setInterval(tick, 1000);//每隔一秒执行一次
+    </script>
+
+
+    <!-- 组件conponents 和 属性props -->
+    <!--
+        组件更多是UI层面的组件，模块是功能层面的模块
+        一个地方修改，多个页面也改变，公共组件的概念
+    -->
+    <div id="app7"></div>
+    <script type="text/babel">
+        function Hello7(props) {
+            //参数props是属性，用于在render中定义name="Jack" age="30"
+            return <div>
+                <hr></hr>
+                <h3>Hello7!!! {props.name}</h3>
+                <p>年龄：{props.age}</p>
+                <p>擅长： JavaScript</p>
+                <hr></hr>
+            </div>;
+        }
+        //此时Hello7已经是一个函数式组件了,现在加载他
+        ReactDOM.render(
+            <Hello7 name="Jack7" age="30" />,
+            document.getElementById('app7')
+        );
+    </script>
+
+    <div id="app8"></div>
+    <script type="text/babel">
+        //使用class继承的方式创建有状态的组件
+        class Hello8 extends React.Component {
+            render() {
+                //生命周期中非常重要的方法
+                //传递props就用this.props.属性
+                return <div>
+                    <h3>Hello8!!! {this.props.name}</h3>
+                    <p>年龄： {this.props.age}</p>
+                    <p>擅长： Java 8</p>
+                </div>
+            }
+        }
+        ReactDOM.render(
+            <Hello8 name="Jack8" age="38" />,
+            document.getElementById('app8')
+        );
+    </script>
+
+
+</body>
+
+</html>

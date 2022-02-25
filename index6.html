@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React基础知识6表单应用</title>
+    <!--下面用cdn方式引入库-->
+    <script src="https://unpkg.com/react@16.14.0/umd/react.development.js"></script>
+    <!--react底层核心库-->
+    <script src="https://unpkg.com/react-dom@16.14.0/umd/react-dom.development.js"></script>
+    <!--react操作dom的库-->
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <!--解析本地es6语法，用babel解析extends等关键字-->
+
+    <style>
+        .gold {
+            color: gold;
+        }
+    </style>
+</head>
+
+<body>
+    <!--三个组件 app 登录 登出-->
+    <div id="app1"></div>
+    <script type="text/babel">
+
+        //使用class继承的方式定义组件
+        class TodoList extends React.Component {
+
+            state = {
+                val: '',
+                list: [
+
+                ]
+            }
+
+
+            handleInput = (event) => {
+                this.setState({ val: event.target.value })
+            }//存值
+
+            handleAdd = () => {
+                const val = this.state.val;
+                const list = this.state.list;
+                //或将以上两行合并为一行es6解构语法：
+                //const { val, list } = this.state;
+                list.push(val);
+                //凡是数据发生了变化，就要用setState重新赋值，否则不会生效
+                this.setState({
+                    list: list//es6语法：当key和value值相同时可以直接写成list
+
+                })
+
+            }
+            render() {
+                const val = this.state.val;
+                const arr = this.state.list;
+                const listItem = [];
+                //接下来遍历arr
+                arr.map((item) => {
+                    //item就是每一项
+                    let li001 = <li>{item}</li>;
+                    listItem.push(li001);
+                });
+
+
+                return <div>
+                    <div>
+                        <input type="text" value={val} onChange={this.handleInput} />
+                        <button onClick={this.handleAdd}>添加</button>
+                    </div>
+                    <ul>
+                        {listItem}
+                    </ul>
+                </div>
+            }
+        }
+        ReactDOM.render(
+            <TodoList />,
+            document.getElementById('app1')
+        );
+
+        //本例子只有一个页面，不涉及页面切换，暂不演示销毁
+    </script>
+
+</body>
+
+</html>
